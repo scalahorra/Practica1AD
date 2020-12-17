@@ -22,13 +22,16 @@ public class BD {
 		
 		int eleccion;
 		
+		do {
+		
 		System.out.println("-----------------------------------------");
 		System.out.println("¿Qué quiere hacer con la base de datos?");
 		System.out.println("1. Añadir un cliente");
 		System.out.println("2. Mostrar un cliente");
 		System.out.println("3. Mostrar todos los clientes");
-		System.out.println("4. Buscar clientes");
-		System.out.println("5. Editar un producto");
+		System.out.println("4. Buscar clientes \t// No funciona //");
+		System.out.println("5. Editar un producto \t// No funciona //");
+		System.out.println("0. Salir");
 		System.out.println("-----------------------------------------");
 		
 		eleccion = entrada.nextInt();
@@ -67,8 +70,7 @@ public class BD {
 					+ "','" + telefonoCaso1 + "','" + faxCaso1 + "','" + direccion + "','" + ciudadCaso1 + "');");
 			
 			//Mensaje para confirmar que se ha insertado correctamente
-			System.out.println("Cliente introducido correctamente");
-			
+			System.out.println("Cliente introducido correctamente");		
 			break;
 			
 			
@@ -107,8 +109,6 @@ public class BD {
 						ciudad + " | Region: " + region + " | Pais: " + pais + " | Codigo postal: " + codigoPostal + " | Codigo empleado: " + codigoEmpleado + " | Limite credito " 
 						+ limiteCredito);
 			}
-			
-			
 			break;
 			
 			
@@ -127,8 +127,30 @@ public class BD {
 				 //Muestra en pantalla el nombre del cliente
 				 System.out.println(nombre);
 				}
+			break;
+//			SELECT * FROM MyTable WHERE Column1 CONTAINS '"Phrase one" And word2 And "Phrase Two"'
 			
+		case 4: //Buscar por cadena de palabras
+			
+			//Pedimos al usuario que escriba las palabras que quiere encontrar
+			System.out.println("Escriba la cadena de palabras que quiera buscar");
+			String cadena = entrada.next();
+			cadena = cadena + entrada.nextLine();
+			
+			//Aplicamos la sentencia 
+			ResultSet resultSetBuscarCadena = statement.executeQuery("Select * FROM cliente WHERE nombre_cliente CONTAINS '" + cadena + "';");
+			
+			//Recorremos la sentencia hasta que haya buscando todo
+			while(resultSetBuscarCadena.next()) {
+				
+				String nombreCadena = resultSetBuscarCadena.getString("nombre_cliente");
+				
+				System.out.println(nombreCadena);
+			}
+			break;
 		}
+		
+		}while(eleccion!=0);
 		
 		
 		//Cerramos la conexion
